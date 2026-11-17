@@ -1,6 +1,6 @@
 {
   "name": "hoy-circulo",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "description": "Can I drive today? Hoy No Circula, verification windows and environmental contingencies for Mexico City's metro area. Installable, offline, no tracking. Unofficial.",
   "keywords": [
