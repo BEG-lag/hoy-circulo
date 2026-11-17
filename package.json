@@ -1,0 +1,61 @@
+{
+  "name": "hoy-circulo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Can I drive today? Hoy No Circula, verification windows and environmental contingencies for Mexico City's metro area. Installable, offline, no tracking. Unofficial.",
+  "keywords": [
+    "hoy-no-circula",
+    "cdmx",
+    "mexico-city",
+    "pwa",
+    "verificacion-vehicular",
+    "contingencia-ambiental",
+    "ics",
+    "calendar"
+  ],
+  "homepage": "https://beg-lag.github.io/hoy-circulo/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BEG-lag/hoy-circulo.git"
+  },
+  "bugs": {
+    "url": "https://github.com/BEG-lag/hoy-circulo/issues"
+  },
+  "license": "MIT",
+  "author": "Benjamín Esponda García (https://pivotek.mx)",
+  "type": "module",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "coverage": "vitest run --coverage",
+    "check:dashes": "node scripts/check-dashes.ts",
+    "status": "node scripts/fetch-status.ts",
+    "icons": "node scripts/icons.ts",
+    "screenshots": "node scripts/screenshots.ts",
+    "check": "npm run typecheck && npm run lint && npm run check:dashes && npm test && npm run build"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@fontsource/cormorant-garamond": "^5.3.0",
+    "@fontsource/inter": "^5.3.0",
+    "@fontsource/jetbrains-mono": "^5.3.0",
+    "@types/node": "^24.19.2",
+    "@vitest/coverage-v8": "^5.1.0",
+    "eslint": "^10.15.0",
+    "globals": "^17.14.0",
+    "ical.js": "^2.2.1",
+    "playwright-core": "^1.65.1",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.73.0",
+    "vite": "^8.3.8",
+    "vitest": "^5.1.0"
+  }
+}
