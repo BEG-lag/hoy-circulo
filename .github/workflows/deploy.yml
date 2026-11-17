@@ -1,0 +1,88 @@
+name: Deploy to GitHub Pages
+
+# Builds the app, refreshes the contingency status from the CAMe communiqués,
+# and publishes to https://beg-lag.github.io/hoy-circulo/.
+# Runs on every push to main, on demand, and every 30 minutes so status.json
+# stays fresh (the app distrusts a status older than 3 hours).
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    - cron: '7,37 * * * *'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Refresh contingency status (never fails the build)
+        run: npm run status
+        continue-on-error: true
+      - run: npm run build
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+      - name: Keep status.json for the record job
+        uses: actions/upload-artifact@v7
+        with:
+          name: status
+          path: public/status.json
+          retention-days: 1
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5
+
+  # Commits status.json only when the contingency status actually changed, so
+  # the git history doubles as a log of CAMe announcements. Commits made with
+  # GITHUB_TOKEN do not trigger another push run.
+  record:
+    needs: build
+    if: github.event_name != 'push'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - uses: actions/download-artifact@v8
+        with:
+          name: status
+          path: new-status
+      - name: Commit status.json if it changed
+        run: |
+          if node scripts/status-changed.ts public/status.json new-status/status.json; then
+            cp new-status/status.json public/status.json
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add public/status.json
+            git commit -m "chore(status): update contingency status from CAMe"
+            git pull --rebase --autostash
+            git push
+          fi
