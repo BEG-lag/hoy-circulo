@@ -114,12 +114,14 @@ const STATUS_ACTIVE = {
 async function newContext(
   browser: Browser,
   url: string,
-  opts: { mobile: boolean; storage: string | null; status: object | null; now?: Date },
+  opts: { mobile: boolean; storage: string | null; status: object | null; now?: Date; serviceWorker?: boolean },
 ): Promise<{ context: BrowserContext; page: Page; errors: string[] }> {
+  // Service workers are blocked by default so page.route can serve the fixed status.json.
+  const serviceWorkers = opts.serviceWorker ? 'allow' : 'block';
   const context = await browser.newContext(
     opts.mobile
-      ? { viewport: { width: 375, height: 812 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true, colorScheme: 'dark', acceptDownloads: true }
-      : { viewport: { width: 1280, height: 860 }, deviceScaleFactor: 2, colorScheme: 'dark', acceptDownloads: true },
+      ? { viewport: { width: 375, height: 812 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true, colorScheme: 'dark', acceptDownloads: true, serviceWorkers }
+      : { viewport: { width: 1280, height: 860 }, deviceScaleFactor: 2, colorScheme: 'dark', acceptDownloads: true, serviceWorkers },
   );
   const page = await context.newPage();
   const errors: string[] = [];
@@ -235,7 +237,30 @@ async function main(): Promise<void> {
       await context.close();
     }
 
-    // 5. English.
+    // 5. Offline: after the first visit the service worker serves the app.
+    console.log('offline');
+    {
+      const { context, page, errors } = await newContext(browser, url, {
+        mobile: true,
+        storage: state('car-a'),
+        status: STATUS_NONE,
+        serviceWorker: true,
+      });
+      await page.evaluate(async () => {
+        await navigator.serviceWorker.ready;
+      });
+      await page.reload();
+      await page.waitForLoadState('networkidle');
+      check(await page.evaluate(() => navigator.serviceWorker.controller !== null), 'service worker controls the page');
+      await context.setOffline(true);
+      await page.reload();
+      check((await page.locator('#verdict-title').innerText()).includes('NO'), 'offline reload still answers from cache');
+      check((await page.locator('#banner-root').innerText()).includes('Sin conexión'), 'offline banner says so');
+      check(errors.filter((e) => !e.includes('ERR_INTERNET_DISCONNECTED')).length === 0, `offline: no console errors ${errors.join(' | ')}`);
+      await context.close();
+    }
+
+    // 6. English.
     console.log('english');
     {
       const { context, page } = await newContext(browser, url, { mobile: false, storage: state('car-a', 'en'), status: null });
