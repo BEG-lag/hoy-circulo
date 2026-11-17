@@ -11,6 +11,13 @@
 
 <p align="center"><a href="README.md">English</a> · <b>Español</b></p>
 
+<!-- demo:start -->
+<p align="center">
+  <img src="assets/demo.gif" alt="Grabación de pantalla de la app en vivo el 2026-11-17: se agrega un auto con placa MXA-458-B y holograma 2 y la app responde que hoy no circula de 5:00 a 22:00, y luego muestra los próximos 7 días." width="100%">
+</p>
+<p align="center"><sub>Grabación real de <a href="https://beg-lag.github.io/hoy-circulo/">la app en vivo</a> el 2026-11-17. <a href="assets/demo.mp4">Versión MP4</a>.</sub></p>
+<!-- demo:end -->
+
 # hoy·circulo
 
 **¿Hoy circulas?** Una aplicación web pequeña e instalable para quienes manejan en la Ciudad de México y el Estado de México: escribes tu placa y tu holograma y te dice si circulas hoy y esta semana según el *Hoy No Circula*, te avisa de contingencias ambientales, te muestra tu próximo periodo de verificación y lo manda todo al calendario de tu teléfono (.ics).

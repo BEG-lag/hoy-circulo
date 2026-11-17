@@ -11,6 +11,13 @@
 
 <p align="center"><b>English</b> · <a href="README.es.md">Español</a></p>
 
+<!-- demo:start -->
+<p align="center">
+  <img src="assets/demo.gif" alt="Screen recording of the live app on 2026-11-17: a car with plate MXA-458-B and hologram 2 is added and the app answers that it cannot drive today from 5:00 to 22:00, then shows the next 7 days." width="100%">
+</p>
+<p align="center"><sub>Real recording of <a href="https://beg-lag.github.io/hoy-circulo/">the live app</a> on 2026-11-17. <a href="assets/demo.mp4">MP4 version</a>.</sub></p>
+<!-- demo:end -->
+
 # hoy·circulo
 
 **Can I drive today?** A small installable web app for drivers in Mexico City and the State of Mexico: enter your plate and emissions hologram and it tells you whether you can drive today and this week under *Hoy No Circula*, warns you about environmental contingencies, shows your next emissions check window, and exports everything to your phone's calendar (.ics).
