@@ -1,4 +1,8 @@
 <p align="center">
+  <a href="https://pivotek.mx"><img src="assets/pivotek-logo.svg" alt="PIVOTEK" width="200"></a>
+</p>
+
+<p align="center">
   <img src="assets/banner.svg" alt="hoy·circulo: can you drive today? Hoy No Circula, emissions checks and contingencies in the Valley of Mexico" width="100%">
 </p>
 

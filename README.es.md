@@ -1,4 +1,8 @@
 <p align="center">
+  <a href="https://pivotek.mx"><img src="assets/pivotek-logo.svg" alt="PIVOTEK" width="200"></a>
+</p>
+
+<p align="center">
   <img src="assets/banner.svg" alt="hoy·circulo: ¿hoy circulas? Hoy No Circula, verificación y contingencias en el Valle de México" width="100%">
 </p>
 
