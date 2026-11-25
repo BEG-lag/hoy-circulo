@@ -90,6 +90,12 @@ export function renderHeader(root: HTMLElement, vm: ViewModel, on: Handlers): vo
         h('span', { class: 'brand-word' }, h('em', {}, 'hoy'), '·circulo'),
       ),
       h(
+        'a',
+        { class: 'pvk', href: 'https://pivotek.mx', title: 'PIVOTEK' },
+        h('img', { class: 'pvk-logo', src: `${import.meta.env.BASE_URL}pivotek-logotipo-naranja.svg`, alt: 'PIVOTEK', width: 90, height: 34 }),
+        h('img', { class: 'pvk-iso', src: `${import.meta.env.BASE_URL}pivotek-isotipo-naranja.svg`, alt: 'PIVOTEK', width: 21, height: 24 }),
+      ),
+      h(
         'div',
         { class: 'top-actions' },
         h('span', { class: 'badge' }, t.unofficial),
